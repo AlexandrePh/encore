@@ -48,6 +48,8 @@ service Daemon {
   rpc DeleteNamespace (DeleteNamespaceRequest) returns (google.protobuf.Empty);
 
   rpc DumpMeta(DumpMetaRequest) returns (DumpMetaResponse);
+
+  rpc Telemetry(TelemetryRequest) returns (TelemetryResponse);
 }
 
 message CommandMessage {
@@ -327,6 +329,15 @@ message DeleteNamespaceRequest {
 
 message ListNamespacesResponse {
   repeated Namespace namespaces = 1;
+}
+
+message TelemetryRequest {
+  optional bool enabled = 1;
+}
+
+message TelemetryResponse {
+  bool enabled = 1;
+  string anon_id = 2;
 }
 
 message DumpMetaRequest {

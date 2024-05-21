@@ -14,6 +14,7 @@ import (
 	"github.com/gregjones/httpcache/diskcache"
 	"github.com/peterbourgon/diskv"
 
+	"encr.dev/cli/internal/telemetry"
 	"encr.dev/internal/conf"
 	"encr.dev/internal/version"
 )
@@ -47,8 +48,8 @@ func New(targetURL string) (*httputil.ReverseProxy, error) {
 	proxy := &httputil.ReverseProxy{
 		Transport: transport,
 		Rewrite: func(r *httputil.ProxyRequest) {
+			telemetry.Send("dash.open")
 			r.SetURL(target)
-
 			// Configure cache headers so the cache behaves the way we want it to.
 			r.Out.Header.Set("Cache-Control", "stale-if-error")
 		},
